@@ -7,7 +7,7 @@ import "./style.css";
 const Mainpage = () => {
   const [mainState, setMainState] = useState({
     heroes: [],
-    count: null,
+    count: 0,
     page: 1,
     loading: false,
   });
