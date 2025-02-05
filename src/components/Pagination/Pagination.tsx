@@ -35,6 +35,7 @@ const Pagination = (props: IProps): JSX.Element => {
       {Array.from({ length: totalPages }, (_, index) => (
         <Button
           key={index + 1}
+          disabled={page === index + 1}
           onClick={() => handlePageClick(index + 1)}
           style={{ fontWeight: page === index + 1 ? "bold" : "normal" }}
         >
