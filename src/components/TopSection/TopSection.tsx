@@ -1,5 +1,6 @@
-import { useState } from "react";
 import { Button, Input } from "..";
+import { useSearchQuery } from "../../hooks/useSearchQuery";
+import { LocalStorageKey } from "../../utils/LocalStorageKeys";
 
 import "./style.css";
 
@@ -8,33 +9,22 @@ interface Props {
 }
 
 export const TopSection = (props: Props) => {
-  const [sectionState, setSectionState] = useState({
-    inputValue: localStorage.getItem("inputValue") || "",
-  });
+  const [searchQuery, setSearchQuery] = useSearchQuery(
+    LocalStorageKey.searchQuery,
+  );
 
   const handleInputChange = (value: string) => {
-    setSectionState({ inputValue: value });
+    setSearchQuery(value.trim());
   };
 
   const buttonClick = () => {
-    const { inputValue } = sectionState;
-
-    const trimmedInput = inputValue.trim();
-
-    if (!trimmedInput) {
-      return;
-    }
-
     const { handleSearch } = props;
-    handleSearch(trimmedInput);
-    localStorage.setItem("inputValue", trimmedInput);
+    handleSearch(searchQuery);
   };
-
-  const { inputValue } = sectionState;
 
   return (
     <div className="controls">
-      <Input inputValue={inputValue} onChange={handleInputChange} />
+      <Input inputValue={searchQuery} onChange={handleInputChange} />
       <Button onClick={buttonClick}>Search</Button>
     </div>
   );

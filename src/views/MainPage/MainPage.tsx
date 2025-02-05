@@ -3,6 +3,8 @@ import { BottomSection, TopSection } from "../../components";
 import { searchService } from "../../apiServices";
 
 import "./style.css";
+import { useSearchQuery } from "../../hooks/useSearchQuery";
+import { LocalStorageKey } from "../../utils/LocalStorageKeys";
 
 const Mainpage = () => {
   const [mainState, setMainState] = useState({
@@ -44,11 +46,11 @@ const Mainpage = () => {
     setMainState({ ...mainState, page });
   };
 
-  useEffect(() => {
-    const inputValue = localStorage.getItem("inputValue");
+  const [searchQuery] = useSearchQuery(LocalStorageKey.searchQuery);
 
-    if (inputValue) {
-      loadDatabySearch(inputValue);
+  useEffect(() => {
+    if (searchQuery) {
+      loadDatabySearch(searchQuery);
     } else {
       loadData();
     }
