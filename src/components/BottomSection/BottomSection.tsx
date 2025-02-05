@@ -15,7 +15,7 @@ export const BottomSection = (props: BottomSectionProps) => {
   });
 
   const handleMakeError = () => {
-    console.log('initialState :', initialState);
+    console.log("initialState :", initialState);
 
     setInitialState(() => {
       throw new Error("Произошла ошибка!");
