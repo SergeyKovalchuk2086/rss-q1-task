@@ -2,46 +2,46 @@ import { Button } from "..";
 
 interface IProps {
   count: number;
-  pageSize: number;
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
+  changePage: (page: number) => void;
+  page: number;
 }
 
 const Pagination = (props: IProps): JSX.Element => {
-  const { count = 82, pageSize = 10, currentPage = 1, setCurrentPage } = props;
+  const { count, page, changePage } = props;
+
+  const pageSize = 10;
 
   const totalPages = Math.ceil(count / pageSize);
 
   const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+    if (page < totalPages) {
+      changePage(page + 1);
     }
   };
 
   const handlePrev = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+    if (page > 1) {
+      changePage(page - 1);
     }
   };
 
   const handlePageClick = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    changePage(pageNumber);
   };
 
   return (
     <div>
-      <Button onClick={() => handleNext()}>Prev</Button>
+      <Button onClick={() => handlePrev()}>Prev</Button>
       {Array.from({ length: totalPages }, (_, index) => (
         <Button
           key={index + 1}
           onClick={() => handlePageClick(index + 1)}
-          disabled={currentPage === index + 1}
-          style={{ fontWeight: currentPage === index + 1 ? "bold" : "normal" }}
+          style={{ fontWeight: page === index + 1 ? "bold" : "normal" }}
         >
           {index + 1}
         </Button>
       ))}
-      <Button onClick={() => handlePrev()}>Next</Button>
+      <Button onClick={() => handleNext()}>Next</Button>
     </div>
   );
 };

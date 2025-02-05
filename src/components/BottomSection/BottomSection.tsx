@@ -6,7 +6,10 @@ import Pagination from "../Pagination/Pagination";
 
 interface BottomSectionProps {
   loading: boolean;
-  data: Person[];
+  heroes: Person[];
+  changePage: (page: number) => void;
+  page: number;
+  count: number;
 }
 
 export const BottomSection = (props: BottomSectionProps) => {
@@ -22,7 +25,7 @@ export const BottomSection = (props: BottomSectionProps) => {
     });
   };
 
-  const { loading, data } = props;
+  const { loading, heroes, changePage, page, count } = props;
 
   if (loading) {
     return <Loader />;
@@ -31,12 +34,12 @@ export const BottomSection = (props: BottomSectionProps) => {
   return (
     <div className="results">
       <h2>Results</h2>
-      {data.length === 0 ? (
+      {heroes.length === 0 ? (
         <p>No results</p>
       ) : (
         <>
-          <List data={data} />
-          <Pagination />
+          <List heroes={heroes} />
+          <Pagination count={count} page={page} changePage={changePage} />
           <Button onClick={handleMakeError}>Error Button</Button>
         </>
       )}

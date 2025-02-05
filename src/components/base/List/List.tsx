@@ -2,11 +2,11 @@ import { Person } from "../../../types";
 import "./style.css";
 
 interface ListProps {
-  data: Person[];
+  heroes: Person[];
 }
 
 export const List = (props: ListProps) => {
-  const { data } = props;
+  const { heroes } = props;
 
   return (
     <div>
@@ -18,11 +18,11 @@ export const List = (props: ListProps) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
-            <tr key={item.name}>
-              <td>{item.name}</td>
+          {heroes.map((hero) => (
+            <tr key={hero.name}>
+              <td>{hero.name}</td>
               <td>
-                Eye : {item.eye_color}, birth year : {item.birth_year}
+                Eye : {hero.eye_color}, birth year : {hero.birth_year}
               </td>
             </tr>
           ))}

@@ -1,7 +1,11 @@
 import { ButtonHTMLAttributes } from "react";
 
 export const Button = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const { onClick, children } = props;
+  const { onClick, disabled, children, style } = props;
 
-  return <button onClick={onClick}>{children}</button>;
+  return (
+    <button disabled={disabled} onClick={onClick} style={style}>
+      {children}
+    </button>
+  );
 };

@@ -5,25 +5,43 @@ import { searchService } from "../../apiServices";
 import "./style.css";
 
 const Mainpage = () => {
-  const [pageState, setPageState] = useState({
-    data: [],
+  const [mainState, setMainState] = useState({
+    heroes: [],
+    count: null,
+    page: 1,
     loading: false,
   });
 
-  const loadData = () => {
-    setPageState({ ...pageState, loading: true });
+  const { loading, heroes, page, count } = mainState;
 
-    searchService.fetchData().then((data) => {
-      setPageState({ data: data.results, loading: false });
+  const loadData = () => {
+    setMainState({ ...mainState, loading: true });
+
+    searchService.fetchData(page).then((data) => {
+      setMainState({
+        ...mainState,
+        count: data.count,
+        heroes: data.results,
+        loading: false,
+      });
     });
   };
 
   const loadDatabySearch = (searchValue: string) => {
-    setPageState({ ...pageState, loading: true });
+    setMainState({ ...mainState, loading: true });
 
     searchService.fetchDataBySearch(searchValue).then((data) => {
-      setPageState({ data: data.results, loading: false });
+      setMainState({
+        ...mainState,
+        count: data.count,
+        heroes: data.results,
+        loading: false,
+      });
     });
+  };
+
+  const changePage = (page: number) => {
+    setMainState({ ...mainState, page });
   };
 
   useEffect(() => {
@@ -34,14 +52,18 @@ const Mainpage = () => {
     } else {
       loadData();
     }
-  });
-
-  const { loading, data } = pageState;
+  }, [page]);
 
   return (
     <div className="container">
       <TopSection handleSearch={loadDatabySearch} />
-      <BottomSection loading={loading} data={data} />
+      <BottomSection
+        count={count}
+        page={page}
+        changePage={changePage}
+        loading={loading}
+        heroes={heroes}
+      />
     </div>
   );
 };

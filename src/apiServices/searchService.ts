@@ -5,10 +5,10 @@ class SearchService {
     this.apiUrl = "https://swapi.dev/api";
   }
 
-  async fetchData(pageNumber: number = 1, pageSize: number = 10) {
+  async fetchData(page: number, pageSize: number = 10) {
     try {
       const response = await fetch(
-        `${this.apiUrl}/people?page=${pageNumber}&pageSize=${pageSize}`,
+        `${this.apiUrl}/people?page=${page}&pageSize=${pageSize}`,
         {
           method: "GET",
           headers: {
