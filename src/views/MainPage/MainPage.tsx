@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { BottomSection, TopSection } from "../../components";
 import { searchService } from "../../apiServices";
-
-import "./style.css";
 import { useSearchQuery } from "../../hooks/useSearchQuery";
 import { LocalStorageKey } from "../../utils/LocalStorageKeys";
+import { useParams } from "../../hooks/useParams";
+
+import "./style.css";
 
 const Mainpage = () => {
   const [mainState, setMainState] = useState({
@@ -15,6 +16,8 @@ const Mainpage = () => {
   });
 
   const { loading, heroes, page, count } = mainState;
+
+  useParams(String(page));
 
   const loadData = () => {
     setMainState({ ...mainState, loading: true });
