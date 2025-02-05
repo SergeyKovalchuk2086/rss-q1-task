@@ -1,62 +1,49 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import { BottomSection, TopSection } from "../../components";
 import { searchService } from "../../apiServices";
-import { Person } from "../../types";
 
 import "./style.css";
 
-interface MainPageState {
-  data: Person[];
-  loading: boolean;
-}
+const Mainpage = () => {
+  const [pageState, setPageState] = useState({
+    data: [],
+    loading: false,
+  });
 
-type MainPageProps = Readonly<object>;
-
-class Mainpage extends Component<MainPageProps, MainPageState> {
-  constructor(props: MainPageProps) {
-    super(props);
-    this.state = {
-      data: [],
-      loading: false,
-    };
-  }
-
-  loadData() {
-    this.setState({ loading: true });
+  const loadData = () => {
+    setPageState({ ...pageState, loading: true });
 
     searchService.fetchData().then((data) => {
-      this.setState({ data: data.results, loading: false });
-    });
-  }
-
-  loadDatabySearch = (searchValue: string) => {
-    this.setState({ loading: true });
-
-    searchService.fetchDataBySearch(searchValue).then((data) => {
-      this.setState({ data: data.results, loading: false });
+      setPageState({ data: data.results, loading: false });
     });
   };
 
-  componentDidMount() {
+  const loadDatabySearch = (searchValue: string) => {
+    setPageState({ ...pageState, loading: true });
+
+    searchService.fetchDataBySearch(searchValue).then((data) => {
+      setPageState({ data: data.results, loading: false });
+    });
+  };
+
+  useEffect(() => {
     const inputValue = localStorage.getItem("inputValue");
 
     if (inputValue) {
-      this.loadDatabySearch(inputValue);
+      loadDatabySearch(inputValue);
     } else {
-      this.loadData();
+      loadData();
     }
-  }
+  });
 
-  render() {
-    const { loading, data } = this.state;
+  const { loading, data } = pageState;
 
-    return (
-      <div className="container">
-        <TopSection handleSearch={this.loadDatabySearch} />
-        <BottomSection loading={loading} data={data} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="container">
+      <TopSection handleSearch={loadDatabySearch} />
+      <BottomSection loading={loading} data={data} />
+    </div>
+  );
+};
 
 export default Mainpage;

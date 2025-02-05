@@ -1,30 +1,23 @@
-import { Component } from "react";
+import { useState } from "react";
 import { Button, Input } from "..";
 
 import "./style.css";
-
-interface State {
-  inputValue: string;
-}
 
 interface Props {
   handleSearch: (searchValue: string) => void;
 }
 
-export class TopSection extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      inputValue: localStorage.getItem("inputValue") || "",
-    };
-  }
+export const TopSection = (props: Props) => {
+  const [sectionState, setSectionState] = useState({
+    inputValue: localStorage.getItem("inputValue") || "",
+  });
 
-  handleInputChange = (value: string) => {
-    this.setState({ inputValue: value });
+  const handleInputChange = (value: string) => {
+    setSectionState({ inputValue: value });
   };
 
-  buttonClick = () => {
-    const { inputValue } = this.state;
+  const buttonClick = () => {
+    const { inputValue } = sectionState;
 
     const trimmedInput = inputValue.trim();
 
@@ -32,19 +25,17 @@ export class TopSection extends Component<Props, State> {
       return;
     }
 
-    const { handleSearch } = this.props;
+    const { handleSearch } = props;
     handleSearch(trimmedInput);
     localStorage.setItem("inputValue", trimmedInput);
   };
 
-  render() {
-    const { inputValue } = this.state;
+  const { inputValue } = sectionState;
 
-    return (
-      <div className="controls">
-        <Input inputValue={inputValue} onChange={this.handleInputChange} />
-        <Button title="Search" onClick={this.buttonClick} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="controls">
+      <Input inputValue={inputValue} onChange={handleInputChange} />
+      <Button onClick={buttonClick}>Search</Button>
+    </div>
+  );
+};

@@ -1,14 +1,7 @@
-import { Component } from "react";
+import { ButtonHTMLAttributes } from "react";
 
-interface ButtonProps {
-  onClick: () => void;
-  title: string;
-}
+export const Button = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
+  const { onClick, children } = props;
 
-export class Button extends Component<ButtonProps> {
-  render() {
-    const { onClick, title } = this.props;
-
-    return <button onClick={onClick}>{title}</button>;
-  }
-}
+  return <button onClick={onClick}>{children}</button>;
+};
