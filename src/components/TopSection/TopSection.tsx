@@ -1,7 +1,6 @@
 import { Button, Input } from "..";
 import { useSearchQuery } from "../../hooks/useSearchQuery";
 import { LocalStorageKey } from "../../utils/LocalStorageKeys";
-
 import "./style.css";
 
 interface Props {
@@ -23,9 +22,16 @@ export const TopSection = (props: Props) => {
   };
 
   return (
-    <div className="controls">
-      <Input inputValue={searchQuery} onChange={handleInputChange} />
-      <Button onClick={buttonClick}>Search</Button>
+    <div className="top-section">
+      <Input
+        value={searchQuery}
+        onChange={handleInputChange}
+        placeholder="Search..."
+        className="search-input"
+      />
+      <Button onClick={buttonClick} className="search-button">
+        Search
+      </Button>
     </div>
   );
 };

@@ -8,23 +8,23 @@ import { useParams } from "../../hooks/useParams";
 import "./style.css";
 
 const Mainpage = () => {
-  const [mainState, setMainState] = useState({
+  const [state, setState] = useState({
     heroes: [],
     count: 0,
     page: 1,
     loading: false,
   });
 
-  const { loading, heroes, page, count } = mainState;
+  const { loading, heroes, page, count } = state;
 
   useParams(String(page));
 
   const loadData = () => {
-    setMainState({ ...mainState, loading: true });
+    setState({ ...state, loading: true });
 
     searchService.fetchData(page).then((data) => {
-      setMainState({
-        ...mainState,
+      setState({
+        ...state,
         count: data.count,
         heroes: data.results,
         loading: false,
@@ -33,11 +33,11 @@ const Mainpage = () => {
   };
 
   const loadDatabySearch = (searchValue: string) => {
-    setMainState({ ...mainState, loading: true });
+    setState({ ...state, loading: true });
 
     searchService.fetchDataBySearch(searchValue).then((data) => {
-      setMainState({
-        ...mainState,
+      setState({
+        ...state,
         count: data.count,
         heroes: data.results,
         loading: false,
@@ -46,7 +46,7 @@ const Mainpage = () => {
   };
 
   const changePage = (page: number) => {
-    setMainState({ ...mainState, page });
+    setState({ ...state, page });
   };
 
   const [searchQuery] = useSearchQuery(LocalStorageKey.searchQuery);
@@ -60,7 +60,7 @@ const Mainpage = () => {
   }, [page]);
 
   return (
-    <div className="container">
+    <div className="main">
       <TopSection handleSearch={loadDatabySearch} />
       <BottomSection
         count={count}

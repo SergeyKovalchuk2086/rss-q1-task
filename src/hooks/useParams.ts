@@ -2,9 +2,12 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 
 export const useParams = (currentpage: string) => {
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    setSearchParams({ page: currentpage });
-  }, [currentpage]);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("page", currentpage);
+
+    setSearchParams(newParams);
+  }, [currentpage, searchParams, setSearchParams]);
 };

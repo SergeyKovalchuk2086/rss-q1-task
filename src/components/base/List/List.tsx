@@ -1,28 +1,45 @@
+import { useNavigate } from "react-router";
 import { Person } from "../../../types";
 import "./style.css";
 
 interface ListProps {
   heroes: Person[];
+  fetchCharacterDetails: (heroUrl: string) => void;
 }
 
 export const List = (props: ListProps) => {
-  const { heroes } = props;
+  const { heroes, fetchCharacterDetails } = props;
+  const navigate = useNavigate();
+
+  const nameForUrl = (name: string) => {
+    return name.replace(/\s/g, "");
+  };
+
+  const showCharacterDetails = (hero: Person) => {
+    navigate(`/${nameForUrl(hero.name)}`);
+    fetchCharacterDetails(hero.url);
+  };
 
   return (
-    <div>
-      <table>
+    <div className="list-container">
+      <table className="hero-table">
         <thead>
           <tr>
-            <th>Person name</th>
-            <th>About person</th>
+            <th>Character</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>
           {heroes.map((hero) => (
             <tr key={hero.name}>
-              <td>{hero.name}</td>
+              <td
+                className="name-column"
+                onClick={() => showCharacterDetails(hero)}
+              >
+                {hero.name}
+              </td>
               <td>
-                Eye : {hero.eye_color}, birth year : {hero.birth_year}
+                Eye: {hero.eye_color}, Birth Year: {hero.birth_year}
               </td>
             </tr>
           ))}

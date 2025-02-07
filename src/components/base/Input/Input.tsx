@@ -1,17 +1,20 @@
 interface InputProps {
-  inputValue: string;
+  value: string;
+  placeholder: string;
+  className: string;
   onChange: (value: string) => void;
 }
 
 export const Input = (props: InputProps) => {
-  const { inputValue, onChange } = props;
+  const { value, onChange, placeholder, className } = props;
 
   return (
     <input
+      className={className}
       type="text"
-      value={inputValue}
+      value={value}
       onChange={(e) => onChange(e.target.value)}
-      placeholder="Tap something"
+      placeholder={placeholder}
     />
   );
 };

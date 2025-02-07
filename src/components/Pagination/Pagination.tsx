@@ -1,4 +1,5 @@
 import { Button } from "..";
+import "./style.css";
 
 interface IProps {
   count: number;
@@ -30,10 +31,17 @@ const Pagination = (props: IProps): JSX.Element => {
   };
 
   return (
-    <div>
-      <Button onClick={() => handlePrev()}>Prev</Button>
+    <div className="pagination">
+      <Button
+        disabled={page <= 1}
+        className="pagination-button"
+        onClick={() => handlePrev()}
+      >
+        Prev
+      </Button>
       {Array.from({ length: totalPages }, (_, index) => (
         <Button
+          className="pagination-button"
           key={index + 1}
           disabled={page === index + 1}
           onClick={() => handlePageClick(index + 1)}
@@ -42,7 +50,13 @@ const Pagination = (props: IProps): JSX.Element => {
           {index + 1}
         </Button>
       ))}
-      <Button onClick={() => handleNext()}>Next</Button>
+      <Button
+        disabled={page >= totalPages}
+        className="pagination-button"
+        onClick={() => handleNext()}
+      >
+        Next
+      </Button>
     </div>
   );
 };
