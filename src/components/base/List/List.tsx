@@ -4,11 +4,10 @@ import "./style.css";
 
 interface ListProps {
   heroes: Person[];
-  fetchCharacterDetails: (heroUrl: string) => void;
 }
 
 export const List = (props: ListProps) => {
-  const { heroes, fetchCharacterDetails } = props;
+  const { heroes } = props;
   const navigate = useNavigate();
 
   const nameForUrl = (name: string) => {
@@ -16,8 +15,9 @@ export const List = (props: ListProps) => {
   };
 
   const showCharacterDetails = (hero: Person) => {
-    navigate(`/${nameForUrl(hero.name)}`);
-    fetchCharacterDetails(hero.url);
+    const heroId = hero.url.split("people/")[1].replace("/", "");
+
+    navigate(`/${nameForUrl(hero.name)}?heroId=${heroId}`);
   };
 
   return (

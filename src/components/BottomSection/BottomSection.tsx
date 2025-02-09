@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { List, Loader } from "..";
 import { Outlet } from "react-router";
 import Pagination from "../Pagination/Pagination";
 import { Person } from "../../types";
-import { characterDetailsService } from "../../apiServices";
 import "./style.css";
 
 interface BottomSectionProps {
@@ -15,24 +13,7 @@ interface BottomSectionProps {
 }
 
 export const BottomSection = (props: BottomSectionProps) => {
-  const [state, setState] = useState({
-    selectedCharacter: {},
-    isFetchingCharacter: false,
-  });
-
   const { loading, heroes, changePage, page, count } = props;
-
-  const fetchCharacterDetails = (characterUrl: string) => {
-    setState({ ...state, isFetchingCharacter: true });
-
-    characterDetailsService.fetchCharacterDetails(characterUrl).then((data) => {
-      setState({
-        ...state,
-        selectedCharacter: data,
-        isFetchingCharacter: false,
-      });
-    });
-  };
 
   if (loading) {
     return <Loader />;
@@ -46,10 +27,7 @@ export const BottomSection = (props: BottomSectionProps) => {
       ) : (
         <div className="bottom-section_results">
           <div className="bottom-section__list">
-            <List
-              fetchCharacterDetails={fetchCharacterDetails}
-              heroes={heroes}
-            />
+            <List heroes={heroes} />
             <Pagination count={count} page={page} changePage={changePage} />
           </div>
           <div className="bottom-section__details">

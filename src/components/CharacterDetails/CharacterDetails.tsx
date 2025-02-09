@@ -1,4 +1,4 @@
-import { useNavigate, useOutletContext, useParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { Person } from "../../types";
 import { useEffect, useState } from "react";
 import { characterDetailsService } from "../../apiServices";
@@ -9,39 +9,46 @@ export const CharacterDetails = () => {
   const [state, setState] = useState<{
     character: Person;
     isFetchingCharacter: boolean;
+    error: string;
   }>({
     character: {} as Person,
     isFetchingCharacter: false,
+    error: "",
   });
-  const context: Person[] = useOutletContext();
 
-  const { name } = useParams();
+  const [searchParams] = useSearchParams();
+  const id: string | null = searchParams.get("heroId");
+
   const navigate = useNavigate();
 
-  const prepareName = (name: string) => {
-    return name.replace(/\s/g, "");
-  };
-
-  const selectedCharacter = context.find((c) => prepareName(c.name) === name);
-
   useEffect(() => {
-    if (!selectedCharacter) return;
+    if (!id) {
+      setState({
+        ...state,
+        error: "Something went wrong",
+        isFetchingCharacter: false,
+      });
+
+      return;
+    }
 
     setState({ ...state, isFetchingCharacter: true });
 
-    characterDetailsService
-      .fetchCharacterDetails(selectedCharacter.url)
-      .then((data) => {
-        setState({
-          ...state,
-          character: data,
-          isFetchingCharacter: false,
-        });
+    characterDetailsService.fetchCharacterDetails(id).then((data) => {
+      setState({
+        ...state,
+        character: data,
+        isFetchingCharacter: false,
       });
-  }, [name]);
+    });
+  }, [id]);
 
   if (state.isFetchingCharacter) {
     return <Loader />;
+  }
+
+  if (state.error) {
+    return <div>{state.error}</div>;
   }
 
   return (

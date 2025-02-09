@@ -1,7 +1,13 @@
 class CharacterDetailsService {
-  async fetchCharacterDetails(url: string) {
+  private apiUrl: string;
+
+  constructor() {
+    this.apiUrl = "https://swapi.dev/api/people/";
+  }
+
+  async fetchCharacterDetails(id: string) {
     try {
-      const response = await fetch(url, {
+      const response = await fetch(`${this.apiUrl}${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
