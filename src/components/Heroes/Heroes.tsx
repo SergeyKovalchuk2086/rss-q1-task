@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router";
-import { Person } from "../../../types";
+import { List } from "..";
+import { Person } from "../../types";
 import "./style.css";
 
-interface ListProps {
+interface HeroesProps {
   heroes: Person[];
 }
 
-export const List = (props: ListProps) => {
+export const Heroes = (props: HeroesProps) => {
   const { heroes } = props;
   const navigate = useNavigate();
 
@@ -30,19 +31,7 @@ export const List = (props: ListProps) => {
           </tr>
         </thead>
         <tbody>
-          {heroes.map((hero) => (
-            <tr key={hero.name}>
-              <td
-                className="name-column"
-                onClick={() => showCharacterDetails(hero)}
-              >
-                {hero.name}
-              </td>
-              <td>
-                Eye: {hero.eye_color}, Birth Year: {hero.birth_year}
-              </td>
-            </tr>
-          ))}
+          <List heroes={heroes} showCharacterDetails={showCharacterDetails} />
         </tbody>
       </table>
     </div>

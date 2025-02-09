@@ -7,7 +7,7 @@ interface IProps {
   page: number;
 }
 
-const Pagination = (props: IProps): JSX.Element => {
+export const Pagination = (props: IProps): JSX.Element => {
   const { count, page, changePage } = props;
 
   const pageSize = 10;
@@ -60,5 +60,3 @@ const Pagination = (props: IProps): JSX.Element => {
     </div>
   );
 };
-
-export default Pagination;

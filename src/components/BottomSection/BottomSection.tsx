@@ -1,6 +1,5 @@
-import { List, Loader } from "..";
+import { Heroes, Loader, Pagination } from "..";
 import { Outlet } from "react-router";
-import Pagination from "../Pagination/Pagination";
 import { Person } from "../../types";
 import "./style.css";
 
@@ -27,7 +26,7 @@ export const BottomSection = (props: BottomSectionProps) => {
       ) : (
         <div className="bottom-section_results">
           <div className="bottom-section__list">
-            <List heroes={heroes} />
+            <Heroes heroes={heroes} />
             <Pagination count={count} page={page} changePage={changePage} />
           </div>
           <div className="bottom-section__details">
