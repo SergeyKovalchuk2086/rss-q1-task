@@ -10,12 +10,15 @@ export const CharacterInfo = (props: CharacterInfoProps) => {
 
   return (
     <tr data-testid="characterInfo" className="hero">
-      <td className="name-column" onClick={onClick}>
+      <td
+        data-testid="character-name"
+        className="name-column"
+        onClick={onClick}
+      >
         {hero.name}
       </td>
-      <td>
-        Eye: {hero.eye_color}, Birth Year: {hero.birth_year}
-      </td>
+      <td data-testid="character-eye">Eye: {hero.eye_color}</td>
+      <td>Birth Year: {hero.birth_year}</td>
     </tr>
   );
 };
