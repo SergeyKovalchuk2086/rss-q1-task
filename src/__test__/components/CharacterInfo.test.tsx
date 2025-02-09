@@ -1,24 +1,35 @@
-import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
 import { CharacterInfo } from "../../components";
 
 const hero = {
-  birth_year: "1",
-  eye_color: "green",
-  films: ["1"],
-  gender: "1",
-  hair_color: "1",
-  height: "1",
-  homeworld: "1",
-  mass: "1",
-  name: "test name",
-  skin_color: "1",
-  created: "1",
-  edited: "1",
-  species: ["1"],
-  starships: ["1"],
-  url: "1",
-  vehicles: ["1"],
+  name: "Luke Skywalker",
+  height: "172",
+  mass: "77",
+  hair_color: "blond",
+  skin_color: "fair",
+  eye_color: "blue",
+  birth_year: "19BBY",
+  gender: "male",
+  homeworld: "https://swapi.dev/api/planets/1/",
+  films: [
+    "https://swapi.dev/api/films/1/",
+    "https://swapi.dev/api/films/2/",
+    "https://swapi.dev/api/films/3/",
+    "https://swapi.dev/api/films/6/",
+  ],
+  species: [],
+  vehicles: [
+    "https://swapi.dev/api/vehicles/14/",
+    "https://swapi.dev/api/vehicles/30/",
+  ],
+  starships: [
+    "https://swapi.dev/api/starships/12/",
+    "https://swapi.dev/api/starships/22/",
+  ],
+  created: "2014-12-09T13:50:51.644000Z",
+  edited: "2014-12-20T21:17:56.891000Z",
+  url: "https://swapi.dev/api/people/1/",
 };
 
 test("Component render the relevant data", () => {

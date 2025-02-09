@@ -52,25 +52,27 @@ export const CharacterDetails = () => {
   }
 
   return (
-    <div className="character-card">
+    <div data-testid="details" className="character-card">
       <button className="close-button" onClick={() => navigate("/")}>
         ×
       </button>
-      <h2 className="character-name">{state.character.name}</h2>
+      <h2 data-testid="name" className="character-name">
+        {state.character.name}
+      </h2>
       <div className="character-info">
         <table>
           <tbody>
             <tr>
               <td>Height</td>
-              <td>{state.character.height} cm</td>
+              <td data-testid="height">{state.character.height} cm</td>
             </tr>
             <tr>
               <td>Mass</td>
-              <td>{state.character.mass} kg</td>
+              <td data-testid="mass">{state.character.mass} kg</td>
             </tr>
             <tr>
               <td>Hair Color</td>
-              <td>{state.character.hair_color}</td>
+              <td data-testid="color">{state.character.hair_color}</td>
             </tr>
             <tr>
               <td>Skin Color</td>
