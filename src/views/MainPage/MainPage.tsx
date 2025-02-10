@@ -1,62 +1,76 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import { BottomSection, TopSection } from "../../components";
 import { searchService } from "../../apiServices";
-import { Person } from "../../types";
+import { useSearchQuery } from "../../hooks/useSearchQuery";
+import { LocalStorageKey } from "../../utils/LocalStorageKeys";
+import { useParams } from "../../hooks/useParams";
 
 import "./style.css";
 
-interface MainPageState {
-  data: Person[];
-  loading: boolean;
-}
+const Mainpage = () => {
+  const [state, setState] = useState({
+    heroes: [],
+    count: 0,
+    page: 1,
+    loading: false,
+  });
 
-type MainPageProps = Readonly<object>;
+  const { loading, heroes, page, count } = state;
 
-class Mainpage extends Component<MainPageProps, MainPageState> {
-  constructor(props: MainPageProps) {
-    super(props);
-    this.state = {
-      data: [],
-      loading: false,
-    };
-  }
+  useParams(String(page));
 
-  loadData() {
-    this.setState({ loading: true });
+  const loadData = () => {
+    setState({ ...state, loading: true });
 
-    searchService.fetchData().then((data) => {
-      this.setState({ data: data.results, loading: false });
-    });
-  }
-
-  loadDatabySearch = (searchValue: string) => {
-    this.setState({ loading: true });
-
-    searchService.fetchDataBySearch(searchValue).then((data) => {
-      this.setState({ data: data.results, loading: false });
+    searchService.fetchData(page).then((data) => {
+      setState({
+        ...state,
+        count: data.count,
+        heroes: data.results,
+        loading: false,
+      });
     });
   };
 
-  componentDidMount() {
-    const inputValue = localStorage.getItem("inputValue");
+  const loadDatabySearch = (searchValue: string) => {
+    setState({ ...state, loading: true });
 
-    if (inputValue) {
-      this.loadDatabySearch(inputValue);
+    searchService.fetchDataBySearch(searchValue).then((data) => {
+      setState({
+        ...state,
+        count: data.count,
+        heroes: data.results,
+        loading: false,
+      });
+    });
+  };
+
+  const changePage = (page: number) => {
+    setState({ ...state, page });
+  };
+
+  const [searchQuery] = useSearchQuery(LocalStorageKey.searchQuery);
+
+  useEffect(() => {
+    if (searchQuery) {
+      loadDatabySearch(searchQuery);
     } else {
-      this.loadData();
+      loadData();
     }
-  }
+  }, [page]);
 
-  render() {
-    const { loading, data } = this.state;
-
-    return (
-      <div className="container">
-        <TopSection handleSearch={this.loadDatabySearch} />
-        <BottomSection loading={loading} data={data} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="main">
+      <TopSection handleSearch={loadDatabySearch} />
+      <BottomSection
+        count={count}
+        page={page}
+        changePage={changePage}
+        loading={loading}
+        heroes={heroes}
+      />
+    </div>
+  );
+};
 
 export default Mainpage;

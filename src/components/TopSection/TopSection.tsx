@@ -1,50 +1,37 @@
-import { Component } from "react";
 import { Button, Input } from "..";
-
+import { useSearchQuery } from "../../hooks/useSearchQuery";
+import { LocalStorageKey } from "../../utils/LocalStorageKeys";
 import "./style.css";
-
-interface State {
-  inputValue: string;
-}
 
 interface Props {
   handleSearch: (searchValue: string) => void;
 }
 
-export class TopSection extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      inputValue: localStorage.getItem("inputValue") || "",
-    };
-  }
+export const TopSection = (props: Props) => {
+  const [searchQuery, setSearchQuery] = useSearchQuery(
+    LocalStorageKey.searchQuery,
+  );
 
-  handleInputChange = (value: string) => {
-    this.setState({ inputValue: value });
+  const handleInputChange = (value: string) => {
+    setSearchQuery(value.trim());
   };
 
-  buttonClick = () => {
-    const { inputValue } = this.state;
-
-    const trimmedInput = inputValue.trim();
-
-    if (!trimmedInput) {
-      return;
-    }
-
-    const { handleSearch } = this.props;
-    handleSearch(trimmedInput);
-    localStorage.setItem("inputValue", trimmedInput);
+  const buttonClick = () => {
+    const { handleSearch } = props;
+    handleSearch(searchQuery);
   };
 
-  render() {
-    const { inputValue } = this.state;
-
-    return (
-      <div className="controls">
-        <Input inputValue={inputValue} onChange={this.handleInputChange} />
-        <Button title="Search" onClick={this.buttonClick} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="top-section">
+      <Input
+        value={searchQuery}
+        onChange={handleInputChange}
+        placeholder="Search..."
+        className="search-input"
+      />
+      <Button onClick={buttonClick} className="search-button">
+        Search
+      </Button>
+    </div>
+  );
+};

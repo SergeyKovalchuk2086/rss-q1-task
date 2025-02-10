@@ -1,21 +1,20 @@
-import { Component } from "react";
-
 interface InputProps {
-  inputValue: string;
+  value: string;
+  placeholder: string;
+  className: string;
   onChange: (value: string) => void;
 }
 
-export class Input extends Component<InputProps> {
-  render() {
-    const { inputValue, onChange } = this.props;
+export const Input = (props: InputProps) => {
+  const { value, onChange, placeholder, className } = props;
 
-    return (
-      <input
-        type="text"
-        value={inputValue}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="Tap something"
-      />
-    );
-  }
-}
+  return (
+    <input
+      className={className}
+      type="text"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+    />
+  );
+};

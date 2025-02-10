@@ -1,0 +1,23 @@
+.hero-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hero-table th,
+.hero-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.hero-table th {
+  font-weight: bold;
+}
+
+.name-column {
+  cursor: pointer;
+  color: #409eff;
+}
+
+.name-column:hover {
+  text-decoration: underline;
+}

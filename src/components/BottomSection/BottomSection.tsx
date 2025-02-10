@@ -1,51 +1,39 @@
-import { Component } from "react";
-import { Button, List, Loader } from "..";
+import { Heroes, Loader, Pagination } from "..";
+import { Outlet } from "react-router";
 import { Person } from "../../types";
 import "./style.css";
 
 interface BottomSectionProps {
   loading: boolean;
-  data: Person[];
+  heroes: Person[];
+  changePage: (page: number) => void;
+  page: number;
+  count: number;
 }
 
-interface BottomSectionState {
-  hasError: boolean;
-}
+export const BottomSection = (props: BottomSectionProps) => {
+  const { loading, heroes, changePage, page, count } = props;
 
-export class BottomSection extends Component<
-  BottomSectionProps,
-  BottomSectionState
-> {
-  constructor(props: BottomSectionProps) {
-    super(props);
-    this.state = { hasError: false };
+  if (loading) {
+    return <Loader />;
   }
 
-  handleMakeError = () => {
-    this.setState(() => {
-      throw new Error("Произошла ошибка!");
-    });
-  };
-
-  render() {
-    const { loading, data } = this.props;
-
-    if (loading) {
-      return <Loader />;
-    }
-
-    return (
-      <div className="results">
-        <h2>Results</h2>
-        {data.length === 0 ? (
-          <p>No results</p>
-        ) : (
-          <>
-            <List data={data} />
-            <Button title="Error Button" onClick={this.handleMakeError} />
-          </>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="bottom-section">
+      <h3 className="bottom-section__header">Results</h3>
+      {heroes.length === 0 ? (
+        <p>No results</p>
+      ) : (
+        <div className="bottom-section_results">
+          <div className="bottom-section__list">
+            <Heroes heroes={heroes} />
+            <Pagination count={count} page={page} changePage={changePage} />
+          </div>
+          <div className="bottom-section__details">
+            <Outlet context={heroes} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
